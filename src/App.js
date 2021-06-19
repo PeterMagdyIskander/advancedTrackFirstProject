@@ -1,7 +1,7 @@
 import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
-
+import BookShelf from './BookShelf'
 
 
 
@@ -13,74 +13,6 @@ onClick={addTo(CurrentlyReading,this.props.bookName,this.props.bookAuthor,this.p
 onClick={addTo(wannaRead,this.props.bookName,this.props.bookAuthor,this.props.bookImage,this.props.currentlyOn)}
 onClick={addTo(Read,this.props.bookName,this.props.bookAuthor,this.props.bookImage,this.props.currentlyOn)}
 */
-
-class Book extends React.Component{
-  constructor(props){
-    super(props)
-    if(this.props.currentlyOn==="Currently Reading"){
-      this.state = {value: 'currentlyReading'};
-    }else if(this.props.currentlyOn==="Want to Read"){
-      this.state = {value: 'wantToRead'};
-    }else if(this.props.currentlyOn==="Read"){
-      this.state = {value: 'Read'};
-    }
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-    this.props.OnAddTo(this.state.value,this.props.bookName,this.props.bookAuthor,this.props.bookImage,this.props.currentlyOn)
-  }
-
-  render(){
-    return(
-      <div className="book">
-        <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: this.props.bookImage }}></div>
-            <div className="book-shelf-changer">
-              <select value={this.state.value} onChange={this.handleChange}>
-                <option value="move" disabled>Move to...</option>
-                <option value="currentlyReading" >Currently Reading</option>
-                <option value="wantToRead" >Want to Read</option>
-                <option value="read" >Read</option>
-                <option value="none">None</option>
-              </select>
-              </div>
-            </div>
-          <div className="book-title">{this.props.bookName}</div>
-        <div className="book-authors">{this.props.bookAuthor}</div>
-      </div>
-    )
-  }
-}
-
-class BookShelf extends React.Component{
- /*constructor(){
-   super()
-   this.state={
-     allBooks:this.props.books
-   }
- }
-*/
-  render(){
-    return (
-      <div className="bookshelf">
-        <h2 className="bookshelf-title">{this.props.shelfTitle}</h2>
-          <div className="bookshelf-books">
-            <ol className="books-grid">
-              {
-              this.props.books.map((book)=>(
-                <li key={book.bookName}><Book OnAddTo={this.props.OnAddTo} books={this.props.books} bookName={book.bookName} bookAuthor={book.bookAuthor} bookImage={book.bookImage} currentlyOn={this.props.shelfTitle}></Book> </li>
-                ))
-              }
-            </ol>
-          </div>
-      </div>
-    )
-  }
-}
-
-
 class BooksApp extends React.Component {
   state = {
     /**
@@ -102,7 +34,7 @@ class BooksApp extends React.Component {
     },
     ]
     ,
-    wannaRead :[{
+    wannaRead:[{
     bookName:"1776",
     bookAuthor:"David McCullough",
     bookImage:"url(http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api)"
@@ -113,9 +45,8 @@ class BooksApp extends React.Component {
     bookImage:"url(http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api)"
     },
     ]
-    
     ,
-    Read :[{
+    Read:[{
     bookName:"The Hobbit",
     bookAuthor:"J.R.R Tolkien",
     bookImage:"url(http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api)"
@@ -131,37 +62,24 @@ class BooksApp extends React.Component {
     bookImage:"url(http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api)"
     },
     ],
-
     showSearchPage: false
   }
 
-
   removeFrom=(removefrom,bookName)=>{
-    console.log("no")
     if(removefrom==="Currently Reading"){
       this.setState((currentState)=>({
-        
-        CurrentlyReading:currentState.CurrentlyReading.filter((b)=>{
-          return b.bookName!==bookName
-        })
+        CurrentlyReading:currentState.CurrentlyReading.filter((b)=>{return b.bookName!==bookName})
       }))
     }else if(removefrom==="Want to Read"){
-      this.setState((currentState)=>({
-        wannaRead:currentState.wannaRead.filter((b)=>{
-          return b.bookName!==bookName
-        })
+      this.setState((currentState)=>({ wannaRead:currentState.wannaRead.filter((b)=>{return b.bookName!==bookName})
       }))
     }else if(removefrom==="Read"){
-      this.setState((currentState)=>({
-        Read:currentState.Read.filter((b)=>{
-          return b.bookName!==bookName
-        })
+      this.setState((currentState)=>({Read:currentState.Read.filter((b)=>{return b.bookName!==bookName})
       }))
     }
   }
-
+  
   addTo=(value,bookName,bookAuthor,bookImage,removefrom) =>{
-    console.log(value)
     let obj={
       bookName:bookName,
       bookAuthor:bookAuthor,
@@ -169,25 +87,22 @@ class BooksApp extends React.Component {
     }
   if(value==="currentlyReading"){
     this.setState((currentState)=>({
-      CurrentlyReading:currentState.CurrentlyReading.push(obj)
+      CurrentlyReading:[obj,...currentState.CurrentlyReading]
     }))
     this.removeFrom(removefrom,bookName);
   }else if(value==="wantToRead"){
-    console.log(this.state.wannaRead)
     this.setState((currentState)=>({
-      wannaRead:currentState.wannaRead.push(obj)
+      wannaRead:[obj,...currentState.wannaRead]
     }))
-    console.log(this.state.wannaRead)
     this.removeFrom(removefrom,bookName);
   }else if(value==="read"){
     this.setState((currentState)=>({
-      Read:currentState.Read.push(obj)
+      Read:[obj,...currentState.Read]
     }))
     this.removeFrom(removefrom,bookName);
   }
 }
 
-  
 
   render() {
     return (
@@ -234,5 +149,4 @@ class BooksApp extends React.Component {
     )
   }
 }
-
 export default BooksApp
