@@ -65,7 +65,7 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
 
-  removeFrom=(removefrom,bookName)=>{
+  removeFrom=(removefrom,bookName,value)=>{
     if(removefrom==="Currently Reading"){
       this.setState((currentState)=>({
         CurrentlyReading:currentState.CurrentlyReading.filter((b)=>{return b.bookName!==bookName})
@@ -80,26 +80,37 @@ class BooksApp extends React.Component {
   }
   
   addTo=(value,bookName,bookAuthor,bookImage,removefrom) =>{
+    
+  if(value==="currentlyReading"){
     let obj={
       bookName:bookName,
       bookAuthor:bookAuthor,
       bookImage:bookImage
     }
-  if(value==="currentlyReading"){
     this.setState((currentState)=>({
       CurrentlyReading:[obj,...currentState.CurrentlyReading]
     }))
-    this.removeFrom(removefrom,bookName);
+    this.removeFrom(removefrom,bookName,value);
   }else if(value==="wantToRead"){
+    let obj={
+      bookName:bookName,
+      bookAuthor:bookAuthor,
+      bookImage:bookImage
+    }
     this.setState((currentState)=>({
       wannaRead:[obj,...currentState.wannaRead]
     }))
-    this.removeFrom(removefrom,bookName);
+    this.removeFrom(removefrom,bookName,value);
   }else if(value==="read"){
+    let obj={
+      bookName:bookName,
+      bookAuthor:bookAuthor,
+      bookImage:bookImage
+    }
     this.setState((currentState)=>({
       Read:[obj,...currentState.Read]
     }))
-    this.removeFrom(removefrom,bookName);
+    this.removeFrom(removefrom,bookName,value);
   }
 }
 

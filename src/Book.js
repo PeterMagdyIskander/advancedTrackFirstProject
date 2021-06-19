@@ -1,5 +1,6 @@
 import React from 'react'
 class Book extends React.Component{
+    
     constructor(props) {
       super(props);
       this.state = {
@@ -11,7 +12,15 @@ class Book extends React.Component{
       this.setState({
         selectValue: e.target.value
       });
-      this.props.OnAddTo(this.state.selectValue,this.props.bookName,this.props.bookAuthor,this.props.bookImage,this.props.currentlyOn)
+
+      var str=this.props.currentlyOn;
+      str= this.props.currentlyOn.charAt(0).toLowerCase() +this.props.currentlyOn.slice(1);
+      var res=str.split(" ");
+      var newCurrentlyOn=res.join("");
+      var areEqual = e.target.value.toUpperCase() === newCurrentlyOn.toUpperCase();
+      if(!areEqual){
+        this.props.OnAddTo(e.target.value,this.props.bookName,this.props.bookAuthor,this.props.bookImage,this.props.currentlyOn)
+      }
       e.preventDefault();
     }
   
@@ -21,7 +30,7 @@ class Book extends React.Component{
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: this.props.bookImage }}></div>
               <div className="book-shelf-changer">
-                <select  onChange={this.handleOnChange}>
+                <select value={this.state.selectValue} onChange={this.handleOnChange}>
                   <option value="move" disabled>Move to...</option>
                   <option value="currentlyReading" >Currently Reading</option>
                   <option value="wantToRead" >Want to Read</option>
