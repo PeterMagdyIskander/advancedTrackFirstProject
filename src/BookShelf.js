@@ -1,13 +1,7 @@
 import React from 'react'
 import Book from "./Book"
 class BookShelf extends React.Component{
-    /*constructor(){
-      super()
-      this.state={
-        allBooks:this.props.books
-      }
-    }
-   */
+    
      render(){
        return (
          <div className="bookshelf">
@@ -15,9 +9,19 @@ class BookShelf extends React.Component{
              <div className="bookshelf-books">
                <ol className="books-grid">
                  {
-                 this.props.books.map((book)=>(
-                   <li key={book.bookName}><Book OnAddTo={this.props.OnAddTo}  bookName={book.bookName} bookAuthor={book.bookAuthor} bookImage={book.bookImage} currentlyOn={this.props.shelfTitle}></Book> </li>
-                   ))
+                 this.props.books.map((book)=>
+                   { var str=this.props.shelfTitle;
+                      str= this.props.shelfTitle.charAt(0).toLowerCase() +this.props.shelfTitle.slice(1);
+                        var res=str.split(" ");
+                      var newCurrentlyOn=res.join("");
+                      let comparison=book.shelf;
+                      var areEqual = comparison.toUpperCase() === newCurrentlyOn.toUpperCase();
+                     if(areEqual){
+                      
+                    return <li key={book.title}><Book updateBookState={this.props.updateBookState} bookInfo={book}></Book> </li>
+                   }
+                   return null}
+                   )
                  }
                </ol>
              </div>
