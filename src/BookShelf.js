@@ -17,8 +17,7 @@ class BookShelf extends React.Component{
                       let comparison=book.shelf;
                       var areEqual = comparison.toUpperCase() === newCurrentlyOn.toUpperCase();
                      if(areEqual){
-                      
-                    return <li key={book.title}><Book updateBookState={this.props.updateBookState} bookInfo={book}></Book> </li>
+                    return <li key={book.id}><Book updateBookState={this.props.updateBookState} bookInfo={book} currentState={book.shelf}></Book> </li>
                    }
                    return null}
                    )

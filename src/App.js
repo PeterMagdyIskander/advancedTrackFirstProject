@@ -2,7 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelf from './BookShelf'
-import {Link,Route} from 'react-router-dom'
+import {Link,Route,Switch} from 'react-router-dom'
 import SearchForBooks from './search'
 
 
@@ -34,10 +34,10 @@ class BooksApp extends React.Component {
     }))
     this.setState((currentState)=>({books:[obj,...currentState.books]}))
   }
-
   render() {
     return (
       <div className="app">
+      <Switch>
       <Route path='/' exact > 
           <div className="list-books">
             <div className="list-books-title">
@@ -57,9 +57,12 @@ class BooksApp extends React.Component {
            
           </div>
       </Route>
-      <Route path='/search'>
-        <SearchForBooks books={this.state.books}></SearchForBooks>
+      <Route path='/search' exact>
+        <SearchForBooks updateBookState={this.updateBookState} books={this.state.books}></SearchForBooks>
       </Route>
+
+      <Route path="/" render={()=> <div> 404</div>}/>
+      </Switch>
       </div>
     )
   }
