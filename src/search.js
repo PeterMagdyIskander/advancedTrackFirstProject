@@ -17,6 +17,29 @@ class SearchForBooks extends Component{
     })
  
   }
+  currentShelf=(book)=>{
+    try{
+      let found=false;
+    let index=0;
+    for(let i = 0;this.props.books.length;i++){
+      if(this.props.books[i].title===book.title)
+      {
+        found=true;
+        index=i;
+        break;
+      }
+
+    }
+    if(found)
+    {console.log("found and returning")
+      return  this.props.books[index].shelf}
+    else{console.log("not found and returning")
+      return 'none'}
+    }catch(error){
+      console.log(error)
+      return 'none';
+    }
+  }
   render(){
     const matchingBooks= this.state.query==="" || this.state.searchedBooks.error==="empty query"
     ? []
@@ -40,8 +63,10 @@ class SearchForBooks extends Component{
               {
                 
                   matchingBooks.map((book)=>{
-                  
-                  return <li key={book.id}><Book updateBookState={this.props.updateBookState} bookInfo={book} currentState={'none'}></Book> </li>
+                    console.log(this.props.books)
+                    console.log(book)
+                    let shelf=this.currentShelf(book)
+                  return <li key={book.id}><Book updateBookState={this.props.updateBookState} bookInfo={book} currentState={shelf}></Book> </li>
                 }) 
                 
               }
